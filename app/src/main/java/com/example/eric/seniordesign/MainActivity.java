@@ -1,7 +1,10 @@
 package com.example.eric.seniordesign;
 
+import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -10,9 +13,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -29,12 +30,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     int autoStatus = 0;
 
     Handler mHandler = new Handler();
+    Handler mHandlerBT = new Handler();
     Runnable mTimer;
+    Runnable mBTsend;
+
+    String message = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final int MY_PERMISSIONS_COARSE_LOCATION = 1;
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                MY_PERMISSIONS_COARSE_LOCATION);
 
         wheel = (ImageView) findViewById(R.id.imageView);
         wheel.setOnTouchListener(this);
@@ -56,17 +66,23 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 if(autoStatus == 0) {
                     statusColor.setBackgroundColor(Color.RED);
                     dispStatus.setText("Auto: Disabled");
+
+                    message = "Disabled";
                 }
 
                 if(autoStatus == 1) {
                     statusColor.setBackgroundColor(Color.YELLOW);
                     autoStatus = 2;
                     dispStatus.setText("Auto: Pre-Flight Check");
+
+                    message = "Pre-Flight";
                 }
 
                 else if(autoStatus == 2) {
                     statusColor.setBackgroundColor(Color.BLUE);
                     dispStatus.setText("Auto: Running");
+
+                    message = "Running";
                 }
 
                 if( checkDoors() ) {
@@ -79,10 +95,26 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 else {
                     mHandler.postDelayed(mTimer, 2000);
                 }
+
+            }
+        };
+
+        mBTsend = new Runnable() {
+            @Override
+            public void run() {
+
+                if (bluetoothLEControl != null && bluetoothLEControl.currentBluetoothConnection()) {
+                    bluetoothLEControl.setMessage(message);
+                }
+
+                mHandlerBT.postDelayed(mBTsend, 1000);
             }
         };
 
         mHandler.postDelayed(mTimer, 100);
+        mHandlerBT.postDelayed(mBTsend, 1000);
+
+        connect();
     }
 
     private boolean checkDoors() {
@@ -104,25 +136,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         final float y = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                {
-                    wheel.clearAnimation();
-                    mCurrAngle = Math.toDegrees(Math.atan2(x - xc, yc - y));
-                    break;
-                }
-            case MotionEvent.ACTION_MOVE:
-                {
-                    mPrevAngle = mCurrAngle;
-                    mCurrAngle = Math.toDegrees(Math.atan2(x - xc, yc - y));
-                    animate(mPrevAngle, mCurrAngle, 0);
-                    angle.setText(String.valueOf(mCurrAngle));
-                    break;
-                }
-            case MotionEvent.ACTION_UP : {
-                    mPrevAngle = mCurrAngle = 0;
-                    break;
-                }
+            {
+                wheel.clearAnimation();
+                mCurrAngle = Math.toDegrees(Math.atan2(x - xc, yc - y));
+                break;
             }
-            return true;
+            case MotionEvent.ACTION_MOVE:
+            {
+                mPrevAngle = mCurrAngle;
+                mCurrAngle = Math.toDegrees(Math.atan2(x - xc, yc - y));
+                animate(mPrevAngle, mCurrAngle, 0);
+                angle.setText(String.valueOf(mCurrAngle));
+                break;
+            }
+            case MotionEvent.ACTION_UP : {
+                mPrevAngle = mCurrAngle = 0;
+                break;
+            }
+        }
+        return true;
     }
 
     private void animate(double fromDegrees, double toDegrees, long durationMillis) {
@@ -142,5 +174,35 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     public void brakePressed(View v) {
         autoStatus = 0;
+    }
+
+    BluetoothLEControl bluetoothLEControl;
+    private void connect() {
+
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(this,"Bluetooth is not supported on this device.",Toast.LENGTH_LONG).show();
+        } else {
+            // Turn on the bluetooth if it is off
+            if (!mBluetoothAdapter.isEnabled()) {
+                mBluetoothAdapter.enable();
+                connect();
+                return;
+            }
+        }
+
+        if (bluetoothLEControl == null || !bluetoothLEControl.currentBluetoothConnection()) {
+            bluetoothLEControl = new BluetoothLEControl(this);
+        } else {
+            Toast.makeText(this, "The Bluetooth is already connected.", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    public void disconnectBT(){
+        if(bluetoothLEControl != null) {
+            bluetoothLEControl.disconnect();
+            bluetoothLEControl = null;
+        }
     }
 }
