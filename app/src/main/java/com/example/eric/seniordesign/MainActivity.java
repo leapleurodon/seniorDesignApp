@@ -63,43 +63,32 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mTimer = new Runnable() {
             @Override
             public void run() {
-                if(autoStatus == 0) {
+
+                if (autoStatus == 0) {
                     statusColor.setBackgroundColor(Color.RED);
                     dispStatus.setText("Auto: Disabled");
-
-                    message = "Disabled";
-                }
-
-                if(autoStatus == 1) {
+                } else if (autoStatus == 1) {
                     statusColor.setBackgroundColor(Color.YELLOW);
-                    autoStatus = 2;
                     dispStatus.setText("Auto: Pre-Flight Check");
-
-                    message = "Pre-Flight";
-                }
-
-                else if(autoStatus == 2) {
+                } else if (autoStatus == 2) {
                     statusColor.setBackgroundColor(Color.BLUE);
                     dispStatus.setText("Auto: Running");
-
-                    message = "Running";
                 }
 
-                if( checkDoors() ) {
-                    autoStatus = 0;
-                }
-
-                if(autoStatus == 0 || autoStatus == 1) {
-                    mHandler.postDelayed(mTimer, 100);
+                /* (checkDoors()) {
+                    message = "Doors:Open";
                 }
                 else {
-                    mHandler.postDelayed(mTimer, 2000);
-                }
+                    message = "Doors:Closed";
+                }*/
+
+
+                mHandler.postDelayed(mTimer, 1000);
 
             }
         };
 
-        mBTsend = new Runnable() {
+        /* mBTsend = new Runnable() {
             @Override
             public void run() {
 
@@ -109,23 +98,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                 mHandlerBT.postDelayed(mBTsend, 1000);
             }
-        };
+        }; */
 
         mHandler.postDelayed(mTimer, 100);
-        mHandlerBT.postDelayed(mBTsend, 1000);
+        //mHandlerBT.postDelayed(mBTsend, 1000);
 
         connect();
-    }
-
-    private boolean checkDoors() {
-
-        if(FD.isChecked() && FP.isChecked() && BD.isChecked() && BP.isChecked())
-        {
-            return false;
-        }
-
-        // One of the doors is opened
-        return true;
     }
 
     @Override
@@ -168,12 +146,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         angle.setText(String.valueOf(mCurrAngle));
     }
 
+    private boolean checkDoors() {
+
+        if(FD.isChecked() && FP.isChecked() && BD.isChecked() && BP.isChecked())
+        {
+            return false;
+        }
+
+        // One of the doors is opened
+        return true;
+    }
+
+
     public void startAuto(View v) {
-        autoStatus = 1;
+       setMessage("Start");
     }
 
     public void brakePressed(View v) {
-        autoStatus = 0;
+
+        setMessage("Brakes:On");
     }
 
     BluetoothLEControl bluetoothLEControl;
@@ -203,6 +194,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         if(bluetoothLEControl != null) {
             bluetoothLEControl.disconnect();
             bluetoothLEControl = null;
+        }
+    }
+
+    public void setMessage(String s)
+    {
+        if (bluetoothLEControl != null && bluetoothLEControl.currentBluetoothConnection()) {
+            bluetoothLEControl.setMessage(s);
         }
     }
 }
