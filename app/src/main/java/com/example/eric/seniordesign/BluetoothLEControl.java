@@ -39,7 +39,7 @@ class BluetoothLEControl {
 
     private String message;
 
-    String recMsg;
+    private String recMsg = "";
 
     private BTControl BTControl;
 
@@ -68,7 +68,7 @@ class BluetoothLEControl {
 
                     Log.i("ServicePath", "Found the device: " + device.getName());
 
-                    if(device.getName().compareTo("nRF8001") == 0)
+                    if(device.getName() != null && device.getName().compareTo("nRF8001") == 0)
                     {
                         mBluetoothAdapter.cancelDiscovery();
 
@@ -94,6 +94,8 @@ class BluetoothLEControl {
     void setMessage(String msg) {
         message = msg;
     }
+
+    String getMessage() {return recMsg; }
 
     void disconnect() {
         Log.i("ThreadPath", "Thread Stopped...");

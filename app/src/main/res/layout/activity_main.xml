@@ -26,43 +26,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:text="0.0"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintLeft_toLeftOf="@+id/imageView" />
 
-    <Button
-        android:id="@+id/button_StartAuton"
-        android:layout_width="122dp"
-        android:layout_height="77dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="startAuto"
-        android:text="Start Autonomous"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_Brake"
-        android:layout_width="50dp"
-        android:layout_height="75dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/brake"
-        android:onClick="brakePressed"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
     <TextView
         android:id="@+id/textView_StatusColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
         android:background="#ff0000"
-        android:text="     "
+        android:text="@string/space"
         app:layout_constraintLeft_toRightOf="@+id/textView_Status"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,9 +46,10 @@
         android:id="@+id/textView_Status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Status:"
+        android:text="@string/status"
+        android:textSize="36sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,69 +58,208 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Auto: Disabled"
+        android:layout_marginTop="16dp"
+        android:text="@string/auto_disabled"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_Status" />
 
+    <Button
+        android:id="@+id/button_Start"
+        android:layout_width="240dp"
+        android:layout_height="85dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:onClick="startAuto"
+        android:text="@string/start_autonomous"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_Exit"
+        android:layout_width="240dp"
+        android:layout_height="85dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:onClick="exitAuto"
+        android:text="@string/exit_autonomous"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_Start" />
+
+    <Button
+        android:id="@+id/button_Brake"
+        android:layout_width="120dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
+        android:onClick="brakePressed"
+        android:text="@string/brake"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/button_Accel"
+        android:layout_width="125dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
+        android:onClick="accelPressed"
+        android:text="@string/accelerator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/button_Stability"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="48dp"
+        android:onClick="stabilityPressed"
+        android:text="@string/stability_control"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_Drive" />
+
     <Switch
         android:id="@+id/switch_FD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="40dp"
         android:layout_marginEnd="4dp"
         android:checked="true"
-        android:text="FD"
+        android:text="@string/fd"
+        android:textSize="18sp"
         android:theme="@style/Switch"
         app:layout_constraintBottom_toTopOf="@+id/switch_BD"
         app:layout_constraintEnd_toStartOf="@+id/imageView_Car" />
 
     <Switch
-        android:id="@+id/switch_FP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="4dp"
-        android:checked="true"
-        android:text="FP"
-        android:theme="@style/Switch"
-        app:layout_constraintBottom_toTopOf="@+id/switch_BP"
-        app:layout_constraintStart_toEndOf="@+id/imageView_Car" />
-
-    <Switch
         android:id="@+id/switch_BD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="4dp"
         android:checked="true"
-        android:text="BD"
+        android:text="@string/bd"
+        android:textSize="18sp"
         android:theme="@style/Switch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView_Car" />
 
     <Switch
+        android:id="@+id/switch_FP"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginStart="4dp"
+        android:checked="true"
+        android:text="@string/fp"
+        android:textSize="18sp"
+        android:theme="@style/Switch"
+        app:layout_constraintBottom_toTopOf="@+id/switch_BP"
+        app:layout_constraintStart_toEndOf="@+id/imageView_Car" />
+
+    <Switch
         android:id="@+id/switch_BP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="4dp"
         android:checked="true"
-        android:text="BP"
+        android:text="@string/bp"
+        android:textSize="18sp"
         android:theme="@style/Switch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView_Car" />
 
     <ImageView
         android:id="@+id/imageView_Car"
-        android:layout_width="66dp"
-        android:layout_height="100dp"
+        android:layout_width="96dp"
+        android:layout_height="130dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="72dp"
+        android:layout_marginStart="84dp"
         android:adjustViewBounds="false"
         android:background="@drawable/car"
         android:cropToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Switch
+        android:id="@+id/switch_SeatBelt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:layout_marginStart="8dp"
+        android:checked="true"
+        android:text="@string/seat_belt"
+        android:textSize="18sp"
+        android:theme="@style/Switch"
+        app:layout_constraintBottom_toTopOf="@+id/switch_FD"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_Park"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="park"
+        android:text="Park"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_Reverse"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button_Reverse"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="reverse"
+        android:text="Reverse"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_Drive"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button_Drive"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="drive"
+        android:text="Drive"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_btStatus"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/btdis"
+        android:text="@string/space"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_DispStatus" />
+
+    <Button
+        android:id="@+id/button_Reconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:onClick="reconnect"
+        android:text="@string/reconnect"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_btStatus"
+        android:enabled="false"/>
 
 </android.support.constraint.ConstraintLayout>

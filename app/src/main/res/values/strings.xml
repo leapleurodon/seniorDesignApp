@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">SeniorDesign</string>
+    <string name="running">Auto: Running</string>
+    <string name="preFlight">Auto: Pre-Flight Check</string>
+    <string name="disabled">Auto: Disabled</string>
+    <string name="seat_belt">Seat Belt</string>
+    <string name="bp">BP</string>
+    <string name="fp">FP</string>
+    <string name="bd">BD</string>
+    <string name="fd">FD</string>
+    <string name="stability_control">Stability Control</string>
+    <string name="accelerator">Accelerator</string>
+    <string name="brake">Brake</string>
+    <string name="exit_autonomous">Exit Autonomous</string>
+    <string name="start_autonomous">Start Autonomous</string>
+    <string name="auto_disabled">Auto: Disabled</string>
+    <string name="status">Status:</string>
+    <string name="space" />
+    <string name="reconnect">Reconnect</string>
 </resources>
